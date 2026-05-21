@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cucina AI — Tu chef de trattoria</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Caveat:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;1,400&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet" />
+  <script type="module" src="/src/main.js"></script>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <div class="logo-badge">
+      <span class="logo-leaf">🌿</span>
+      <span class="logo-tomato">🍅</span>
+    </div>
+    <div class="brand-text">
+      <h1>Cucina <span>AI</span></h1>
+      <p class="tagline" data-i18n="tagline">Trattoria · Recetas con lo que tienes</p>
+    </div>
+  </div>
+  <div class="header-right">
+    <button id="lang-toggle" class="lang-btn" title="Idioma / Language" style="display:none" aria-hidden="true">ES · EN</button>
+    <select id="model-select" title="Modelo activo">
+      <option value="openrouter/free">auto ✦free</option>
+      <option value="deepseek/deepseek-v4-flash:free">deepseek-v4-flash ✦free</option>
+      <option value="meta-llama/llama-3.3-70b-instruct:free">llama-3.3-70b ✦free</option>
+      <option value="openai/gpt-oss-120b:free">gpt-oss-120b ✦free</option>
+      <option value="openai/gpt-oss-20b:free">gpt-oss-20b ✦free</option>
+      <option value="google/gemma-4-31b-it:free">gemma-4-31b ✦free</option>
+    </select>
+  </div>
+</header>
+
+<!-- HERO with mascot -->
+<section id="hero">
+  <div class="hero-inner">
+    <div class="hero-mascot">
+      <img id="mascot-idle"    class="mascot mascot-active" src="/src/assets/chef-idle.png"    alt="Chef esperando" />
+      <img id="mascot-cooking" class="mascot"               src="/src/assets/chef-cooking.png" alt="Chef cocinando" />
+      <img id="mascot-happy"   class="mascot"               src="/src/assets/chef-happy.png"   alt="Chef contento" />
+    </div>
+    <div class="hero-copy">
+      <p class="kicker" data-i18n="kicker">Benvenuto in cucina</p>
+      <h2 data-i18n="heroTitle">Dime qué tienes en la nevera<br/>y te invento la cena</h2>
+      <p class="hero-sub" data-i18n="heroSub">Un chef de IA con recetas <em>semplici</em> y otras <em>da chef</em>, escritas a mano sobre papel.</p>
+    </div>
+  </div>
+  <div class="hero-tape tape-1"></div>
+  <div class="hero-tape tape-2"></div>
+</section>
+
+<div id="key-banner">
+  <div class="inner">
+    <div class="key-info">
+      <label data-i18n="apiLabel">API Key</label>
+      <a href="https://openrouter.ai/keys" target="_blank" rel="noopener">openrouter.ai/keys →</a>
+    </div>
+    <input id="api-key-input" type="password" placeholder="sk-or-v1-..." autocomplete="off" />
+    <button id="save-key-btn" data-i18n="save">Guardar</button>
+  </div>
+</div>
+
+<div id="free-strip">
+  <span class="free-tag active" data-model="openrouter/free">auto</span>
+  <span class="free-tag" data-model="deepseek/deepseek-v4-flash:free">deepseek-v4-flash</span>
+  <span class="free-tag" data-model="meta-llama/llama-3.3-70b-instruct:free">llama-3.3-70b</span>
+  <span class="free-tag" data-model="openai/gpt-oss-120b:free">gpt-oss-120b</span>
+  <span class="free-tag" data-model="openai/gpt-oss-20b:free">gpt-oss-20b</span>
+  <span class="free-tag" data-model="google/gemma-4-31b-it:free">gemma-4-31b</span>
+</div>
+
+<div id="main-wrapper">
+
+  <!-- CHAT -->
+  <div class="chat-col">
+    <div id="messages">
+      <div id="empty-state">
+        <div class="es-icon">🍝</div>
+        <h2 data-i18n="emptyTitle">La cocina está lista</h2>
+        <p data-i18n="emptyDesc">Guarda tu API Key y cuéntame qué ingredientes tienes a la mano.</p>
+      </div>
+    </div>
+    <div id="input-area">
+      <textarea id="user-input" rows="1" data-i18n-ph="placeholder" placeholder="Ej: tengo pollo, arroz, limón y ajo…"></textarea>
+      <button id="send-btn" title="Enviar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="22" y1="2" x2="11" y2="13"></line>
+          <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+        </svg>
+      </button>
+    </div>
+    <div id="status" data-i18n="statusStart">Ingresa tu API Key para comenzar</div>
+  </div>
+
+  <!-- RECIPE CARDS as paper notes -->
+  <div id="recipe-section">
+    <div class="menu-header">
+      <h2 data-i18n="menuTitle">Il menù del giorno</h2>
+      <p id="menu-hint" data-i18n="menuHint">Toca una nota para leer la receta completa</p>
+    </div>
+    <div id="recipe-skeleton">
+      <div class="skeleton-card"><div class="skel skel-title"></div><div class="skel skel-line"></div><div class="skel skel-line short"></div><div class="skel skel-tag"></div></div>
+      <div class="skeleton-card"><div class="skel skel-title"></div><div class="skel skel-line"></div><div class="skel skel-line short"></div><div class="skel skel-tag"></div></div>
+      <div class="skeleton-card"><div class="skel skel-title"></div><div class="skel skel-line"></div><div class="skel skel-line short"></div><div class="skel skel-tag"></div></div>
+    </div>
+    <div id="recipe-grid"></div>
+  </div>
+
+  <!-- EXPANDED RECIPE NOTE -->
+  <div id="recipe-note-wrap">
+    <div id="recipe-note">
+      <div id="note-loading">
+        <div class="note-spinner"></div>
+        <p data-i18n="writing">Il chef sta scrivendo la ricetta…</p>
+      </div>
+      <div id="note-content"></div>
+    </div>
+  </div>
+
+</div>
+
+<footer class="site-footer">
+  <p>Fatto con <span class="heart">❤</span> · Cucina AI</p>
+</footer>
+
+</body>
+</html>
