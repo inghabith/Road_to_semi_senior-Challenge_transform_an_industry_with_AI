@@ -1,1 +1,1 @@
-# Road-to-semi-senior-Challenge-transform-an-industry-with-AI
+# Road to semi-senior Challenge transforman industry with AI
